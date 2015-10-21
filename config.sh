@@ -1,17 +1,24 @@
 #!/bin/bash
 # Sets up a workspace for a remote PostGIS database, and substitutes the sensitive properties (like
-# username and password) from environment variables.
+# username and password) from environment variables. Refer to the README for details.
 
 WORKSPACE=$PG_USERNAME
 NAMESPACE=http://${WORKSPACE}.com
+${GEOSERVER_PASSWORD:=geoserver}
 
 if [ ! -d $GEOSERVER_HOME/data_dir/workspaces/$WORKSPACE ] ; then
   echo "Configuring workspace and datastore $WORKSPACE..."
   cd $GEOSERVER_HOME/data_dir/workspaces
   mkdir $WORKSPACE
   cd $WORKSPACE
+
+  echo "Adding workspace $WORKSPACE..."
   echo "<workspace><id>$WORKSPACE</id><name>$WORKSPACE</name></workspace>" > workspace.xml
+
+  echo "Adding namespace $WORKSPACE..."
   echo "<namespace><id>$WORKSPACE</id><prefix>$WORKSPACE</prefix><uri>$NAMESPACE</uri></namespace>" > namespace.xml
+
+  echo "Adding datastore $WORKSPACE to $PG_HOSTNAME:$PG_PORT..."
   mkdir $WORKSPACE
   DATASTORE=`cat <<EOF
 <dataStore>
@@ -35,11 +42,14 @@ if [ ! -d $GEOSERVER_HOME/data_dir/workspaces/$WORKSPACE ] ; then
 EOF
 `
   echo $DATASTORE > $WORKSPACE/datastore.xml
-  
+
+  echo "Setting GeoServer password to \$GEOSERVER_PASSWORD..."
+  USERS_FILE=$GEOSERVER_HOME/data_dir/security/usergroup/default/users.xml
+  sed -i "s/password=\"[^\"]*\"/password=\"plain:$GEOSERVER_PASSWORD\"/g" $USERS_FILE
+
   cd $GEOSERVER_HOME
   echo "Added configuration for workspace and datastore $WORKSPACE"
 fi
 
 echo "Starting GeoServer..."
 bin/startup.sh
-
