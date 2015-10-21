@@ -1,8 +1,10 @@
 # docker-geoserver-postgis
 
-[![Docker PostGIS and GeoServer logo](http://i.imgur.com/clmgpAg.png)
+<a href="https://hub.docker.com/r/orlade/docker-geoserver-postgis/">
+![Docker PostGIS and GeoServer logo](http://i.imgur.com/clmgpAg.png)
 
-**orlade/docker-geoserver-postgis** on Docker Hub][image]
+**orlade/docker-geoserver-postgis** on Docker Hub
+</a>
 
 Docker image for an instance of GeoServer with a connection to a remote PostGIS data store.
 Builds on the [kartoza/geoserver][dockerhub] image ([GitHub][github]).
@@ -27,6 +29,5 @@ You can optionally provide the following environment variables to configure GeoS
 * `GEOSERVER_DATASTORE`: The name of the datastore to create in the workspace. Defaults to
 
 
-[image]: https://hub.docker.com/r/orlade/docker-geoserver-postgis/
 [dockerhub]: https://hub.docker.com/r/kartoza/geoserver/
 [github]: https://github.com/kartoza/docker-geoserver
