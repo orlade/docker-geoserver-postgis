@@ -29,6 +29,15 @@ You can optionally provide the following environment variables to configure GeoS
   `http://$GEOSERVER_WORKSPACE.com`.
 * `GEOSERVER_NAMESPACE_ID`: The ID of the new namespace. Defaults to `GEOSERVER_WORKSPACE`.
 * `GEOSERVER_DATASTORE`: The name of the datastore to create in the workspace. Defaults to
+  `GEOSERVER_WORKSPACE`.
+* `GEOSERVER_STYLENAME`: The name of the style to create in the workspace. Defaults to
+  `GEOSERVER_WORKSPACE`.
+  
+  **Note:** Creating the style requires that you place a `style.sld` file into the `/data/styles/`
+  directory of this repository before building the image. You can get an SLD file in the right
+  format by uploading a style to a local GeoServer instance and exploring its
+  `data_dir/workspaces/<your_workspace>/styles` directory. To keep this file private, fork this
+  repository into a private repository, commit your own style file and rebuild with Docker.
 
 `GEOSERVER_HOME` is defined by the parent image ([kartoza/geoserver][dockerhub]) as the location in
 which GeoServer is installed (`/opt/geoserver`).
