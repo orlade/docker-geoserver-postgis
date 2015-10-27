@@ -1,0 +1,12 @@
+<style>
+  <id>$GEOSERVER_STYLENAME</id>
+  <name>$GEOSERVER_STYLENAME</name>
+  <workspace>
+    <id>$GEOSERVER_WORKSPACE</id>
+  </workspace>
+  <format>sld</format>
+  <languageVersion>
+    <version>1.0.0</version>
+  </languageVersion>
+  <filename>$GEOSERVER_STYLENAME.sld</filename>
+</style>

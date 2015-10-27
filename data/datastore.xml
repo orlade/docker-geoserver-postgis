@@ -1,0 +1,18 @@
+<dataStore>
+  <id>$GEOSERVER_WORKSPACE</id>
+  <name>$GEOSERVER_DATASTORE</name>
+  <type>PostGIS</type>
+  <enabled>true</enabled>
+  <namespace>
+    <id>$GEOSERVER_NAMESPACE_ID</id>
+  </namespace>
+  <connectionParameters>
+    <entry key="database">$PG_DATABASE</entry>
+    <entry key="host">$PG_HOSTNAME</entry>
+    <entry key="port">$PG_PORT</entry>
+    <entry key="passwd">$PG_PASSWORD</entry>
+    <entry key="dbtype">postgis</entry>
+    <entry key="user">$PG_USERNAME</entry>
+  </connectionParameters>
+  <__default>false</__default>
+</dataStore>

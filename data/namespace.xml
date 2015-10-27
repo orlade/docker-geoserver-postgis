@@ -1,0 +1,5 @@
+<namespace>
+  <id>$GEOSERVER_NAMESPACE_ID</id>
+  <prefix>$GEOSERVER_WORKSPACE</prefix>
+  <uri>$GEOSERVER_NAMESPACE</uri>
+</namespace>

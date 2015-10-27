@@ -1,4 +1,4 @@
-# docker-geoserver-postgis
+# GeoServer + PostGIS Docker Image
 
 <a href="https://hub.docker.com/r/orlade/docker-geoserver-postgis/">
 ![Docker PostGIS and GeoServer logo](http://i.imgur.com/clmgpAg.png)
@@ -7,7 +7,10 @@
 </a>
 
 Docker image for an instance of GeoServer with a connection to a remote PostGIS data store.
-Builds on the [kartoza/geoserver][dockerhub] image ([GitHub][github]).
+Builds on the [kartoza/geoserver][dockerhub] image ([GitHub][github]), and provides numerous options
+to configure both the PostGIS connection and GeoServer workspace.
+
+## Configuration
 
 Provide the following environment variables at runtime to configure the connection to PostGIS:
 
@@ -17,16 +20,20 @@ Provide the following environment variables at runtime to configure the connecti
 * `PG_PASSWORD`: The password of the PostgreSQL user used by the app.
 * `PG_DATABASE`: The name of the PostgreSQL database to connect to.
 
-Note that the PostgreSQL and GeoServer passwords will be stored in plain text within the container.
-
 You can optionally provide the following environment variables to configure GeoServer as well:
 
+* `GEOSERVER_USERNAME`: The username for the GeoServer admin user. Defaults to "admin".
 * `GEOSERVER_PASSWORD`: The password for the GeoServer admin user. Defaults to "geoserver".
 * `GEOSERVER_WORKSPACE`: The workspace to set up for the app. Defaults to `PG_DATABASE`.
 * `GEOSERVER_NAMESPACE`: The namespace to use within the workspace. Defaults to
   `http://$GEOSERVER_WORKSPACE.com`.
 * `GEOSERVER_NAMESPACE_ID`: The ID of the new namespace. Defaults to `GEOSERVER_WORKSPACE`.
 * `GEOSERVER_DATASTORE`: The name of the datastore to create in the workspace. Defaults to
+
+`GEOSERVER_HOME` is defined by the parent image ([kartoza/geoserver][dockerhub]) as the location in
+which GeoServer is installed (`/opt/geoserver`).
+
+**Note:** The PostgreSQL and GeoServer passwords will be stored in plain text within the container.
 
 
 [dockerhub]: https://hub.docker.com/r/kartoza/geoserver/
