@@ -13,10 +13,13 @@ ENV_PATTERN = re.compile('\$([A-Za-z0-9_]+)')
 DEFAULT_GEOSERVER_USERNAME = 'admin'
 DEFAULT_GEOSERVER_PASSWORD = 'geoserver'
 
+# Environment variables that must be defined for the setup to execute.
 REQUIRED_ENVS = ['PG_USERNAME', 'PG_PASSWORD', 'PG_HOSTNAME', 'PG_PORT', 'PG_DATABASE']
 
-# Simple getter function for environment variables.
-env = lambda var: os.environ[var]
+
+def env(var):
+    """Simple, short-named getter function for environment variables."""
+    return os.environ[var]
 
 
 def default_env(var, default_value):
@@ -35,7 +38,7 @@ def init_geoserver_env():
             raise Exception('%s not defined in environment' % var)
 
     default_env('GEOSERVER_WORKSPACE', env('PG_DATABASE'))
-    default_env('GEOSERVER_NAMESPACE', env('http://%s.com' % env('GEOSERVER_WORKSPACE')))
+    default_env('GEOSERVER_NAMESPACE', 'http://%s.com' % env('GEOSERVER_WORKSPACE'))
     default_env('GEOSERVER_NAMESPACE_ID', env('GEOSERVER_WORKSPACE'))
     default_env('GEOSERVER_DATASTORE', env('GEOSERVER_WORKSPACE'))
     default_env('GEOSERVER_STYLENAME', env('GEOSERVER_WORKSPACE'))
