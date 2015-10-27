@@ -71,7 +71,7 @@ def replace_write(filename, destination):
             outfile.write(content_expanded)
 
 
-def add_workspace():
+def add_workspace(default=True):
     workspace_dir = get_workspace_dir()
     if not os.path.isdir(workspace_dir):
         print "Creating workspace directory at %s..." % workspace_dir
@@ -79,6 +79,10 @@ def add_workspace():
 
     print "Adding workspace %s..." % env('GEOSERVER_WORKSPACE')
     replace_write('data/workspace.xml', '%s/workspace.xml' % workspace_dir)
+
+    if default:
+        print "Setting workspace %s as the default..." % env('GEOSERVER_WORKSPACE')
+        replace_write('data/workspace.xml', '%s/../default.xml' % workspace_dir)
 
 
 def add_namespace():
