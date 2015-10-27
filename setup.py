@@ -61,7 +61,8 @@ def replace_write(filename, destination):
 
     with open(filename, 'r') as infile:
         content = infile.read()
-        content_expanded = re.sub(ENV_PATTERN, env, content)
+        content_expanded = re.sub(ENV_PATTERN, lambda match: env(match.group(1)), content)
+        mkpath(os.path.dirname(os.path.realpath(destination)))
         with open(destination, 'w') as outfile:
             outfile.write(content_expanded)
 
@@ -106,14 +107,16 @@ def set_user():
     # Don't print the actual password to the console.
     print "Setting username:password to %s:$GEOSERVER_PASSWORD..." % env('GEOSERVER_USERNAME')
 
-    users_dir = '%s/data_dir/security/usergroup/default/users.xml' % env('GEOSERVER_HOME')
+    users_dir = '%s/data_dir/security/usergroup/default' % env('GEOSERVER_HOME')
     replace_write('data/users.xml', '%s/users.xml' % users_dir)
 
 
 if __name__ == '__main__':
+    # Load relative file paths relative to the script directory.
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
     print "Configuring GeoServer..."
     init_geoserver_env()
-    add_namespace()
+    add_workspace()
     add_namespace()
     add_datastore()
     add_style()
