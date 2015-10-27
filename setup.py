@@ -12,6 +12,7 @@ ENV_PATTERN = re.compile('\$([A-Za-z0-9_]+)')
 
 DEFAULT_GEOSERVER_USERNAME = 'admin'
 DEFAULT_GEOSERVER_PASSWORD = 'geoserver'
+GEOSERVER_DATA_DIR = os.path.realpath('%s/data_dir' % os.environ['GEOSERVER_HOME'])
 
 # Environment variables that must be defined for the setup to execute.
 REQUIRED_ENVS = ['PG_USERNAME', 'PG_PASSWORD', 'PG_HOSTNAME', 'PG_PORT', 'PG_DATABASE']
@@ -47,7 +48,7 @@ def init_geoserver_env():
 
 
 def get_workspace_dir():
-    return '%s/data_dir/workspaces/%s' % (env('GEOSERVER_HOME'), env('GEOSERVER_WORKSPACE'))
+    return '%s/workspaces/%s' % (GEOSERVER_DATA_DIR, env('GEOSERVER_WORKSPACE'))
 
 
 def replace_write(filename, destination):
@@ -63,7 +64,10 @@ def replace_write(filename, destination):
         content = infile.read()
         content_expanded = re.sub(ENV_PATTERN, lambda match: env(match.group(1)), content)
         mkpath(os.path.dirname(os.path.realpath(destination)))
+
+        verb = "Overwriting" if os.path.isfile(destination) else "Writing"
         with open(destination, 'w') as outfile:
+            print "%s file to %s" % (verb, destination)
             outfile.write(content_expanded)
 
 
@@ -107,7 +111,7 @@ def set_user():
     # Don't print the actual password to the console.
     print "Setting username:password to %s:$GEOSERVER_PASSWORD..." % env('GEOSERVER_USERNAME')
 
-    users_dir = '%s/data_dir/security/usergroup/default' % env('GEOSERVER_HOME')
+    users_dir = '%s/security/usergroup/default' % GEOSERVER_DATA_DIR
     replace_write('data/users.xml', '%s/users.xml' % users_dir)
 
 
